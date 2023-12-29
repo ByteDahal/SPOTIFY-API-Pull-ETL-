@@ -1,0 +1,8 @@
+secret_key = "5xDX1yeDsrmc-dNcHtBocTRyWP4pq350Q-Vnxtc7SsIWmG1Y2vX4"
+client_id = "59bafbd0d9164506adf654a3f78cb9fa"
+client_secret = "4324cc4e2ec94affbe260ff07c142a36"
+auth_url = "http://accounts.spotify.com/authorize"
+token_url = "http://accounts.spotify.com/api/token"
+api_base_url = "http://accounts.spotify.com/v1/"
+access_token = "BQAMAkpPoxU7ejVd4GdqtlK0LK-wdkGsp_LDTj6vYRdXhQAKw8kw0kh4-Y9kU1hFneaufs6mam0N1JDLnQpCZ-GKLk6EzBgNU5r-a2ZhNbJpvfyzAF4"
+bearer_token = "BQAMAkpPoxU7ejVd4GdqtlK0LK-wdkGsp_LDTj6vYRdXhQAKw8kw0kh4-Y9kU1hFneaufs6mam0N1JDLnQpCZ-GKLk6EzBgNU5r-a2ZhNbJpvfyzAF4"
