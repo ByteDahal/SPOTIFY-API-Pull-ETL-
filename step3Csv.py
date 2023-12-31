@@ -1,7 +1,7 @@
 import csv
 from step2ForSearch import artists, albums, playlists, tracks, shows, episodes
 
-file_path = "z1.csv"
+file_path = "z1SearchByArtist.csv"
 artist_data = artists["artists"]["items"]
 #agadi bata aayeko artists ley display garauni data bhitra ko artist ani artist tyo bhitra ko item(curly braces bhitrako)
 field_names1 = ["artist_name", "id", "href", "popularity", "genres"]
@@ -22,7 +22,7 @@ with open(file_path, 'w', newline = '', encoding = 'utf-8') as csv_file1:
         })
     print("search_for_artist data is written to csv")
     
-file_path2 = "z2.csv"    
+file_path2 = "z2SearchByAlbum.csv"    
 field_names2 = ["album_name", "artist_name", "release_date", "spotify_url"]
 album_data = albums["albums"]["items"]
 with open(file_path2, 'w', newline = '', encoding = "utf-8") as csv_file2:
@@ -41,7 +41,7 @@ with open(file_path2, 'w', newline = '', encoding = "utf-8") as csv_file2:
         })
     print("search_for_album data is written to csv")    
     
-file_path3 = "z3.csv"
+file_path3 = "z3SearchByPlaylist.csv"
 field_names3 = ["playlist_name", "owner_name", "total_track", "playlist_url"]
 playlists_data = playlists["playlists"]["items"]
 with open(file_path3, 'w', newline = '', encoding="utf-8") as csv_file3:
@@ -59,7 +59,7 @@ with open(file_path3, 'w', newline = '', encoding="utf-8") as csv_file3:
     print("search_for_playlists is written to csv")
 
 
-file_path4 = "z4.csv"
+file_path4 = "z4SearchByTrack.csv"
 field_names4 = ['track_name', 'artist_names', 'album_name', 'available_markets', 'release_date', 'total_tracks', 'duration_ms', 'popularity', 'preview_url', 'track_url']
 track_data = tracks['tracks']['items']
 with open(file_path4, 'w', newline = '', encoding="utf-8") as csv_file4:
@@ -83,7 +83,7 @@ with open(file_path4, 'w', newline = '', encoding="utf-8") as csv_file4:
     print("search_for_tracks is written to csv")
     
 
-file_path5 = "z5.csv"
+file_path5 = "z5SearchByShow.csv"
 field_names5 = ['items', 'total']
 shows_data = shows["shows"]
 
@@ -99,7 +99,7 @@ with open(file_path5, 'w', newline='', encoding="utf-8") as csv_file5:
     print("search_for_show is written to csv")
     
     
-file_path5 = "z6.csv"
+file_path5 = "z6SearchBySpisode.csv"
 field_names5 = ['items', 'total']
 episodes_data = episodes["episodes"]
 
