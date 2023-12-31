@@ -3,6 +3,7 @@ from step2ForSearch import artists, albums, playlists, tracks, shows, episodes
 
 file_path = "z1.csv"
 artist_data = artists["artists"]["items"]
+#agadi bata aayeko artists ley display garauni data bhitra ko artist ani artist tyo bhitra ko item(curly braces bhitrako)
 field_names1 = ["artist_name", "id", "href", "popularity", "genres"]
 with open(file_path, 'w', newline = '', encoding = 'utf-8') as csv_file1:
     csv_writer = csv.DictWriter(csv_file1, fieldnames=field_names1)
@@ -11,11 +12,11 @@ with open(file_path, 'w', newline = '', encoding = 'utf-8') as csv_file1:
     for artist in artist_data:
         csv_writer.writerow({
             'artist_name': artist.get('name', ''),
+            #name bhaye pathauni natra empty''
             'id': artist.get('id', ''),
             'href': artist.get('href', ''),
             'popularity': artist.get('popularity', ''),
             'genres': ', '.join(artist.get('genres', [])) if artist.get('genres') else ''
-
             #yo bhanya genres dherai bhaye comma ley separate garera dekhauni natra khali bhaye '' khali chadni
             
         })
@@ -32,8 +33,11 @@ with open(file_path2, 'w', newline = '', encoding = "utf-8") as csv_file2:
         csv_writer.writerow({
             'album_name': album.get("name", ''),
             "artist_name": album.get("artists", [{}])[0].get("name", ""),
+            #artists ko pailo index lai lini tesko name lini
             "release_date": album.get("release_date", ''),
             "spotify_url": album.get("external_urls", {}).get("spotify", "")
+            #external_url bhaye tyo bhitra ko spotify ko dini natra {};empty
+            #if spotify ni nabhaye ''
         })
     print("search_for_album data is written to csv")    
     
@@ -49,6 +53,7 @@ with open(file_path3, 'w', newline = '', encoding="utf-8") as csv_file3:
             "playlist_name": playlist.get("name",''),
             "owner_name": playlist.get("owner", {}).get("display_name",''),
             "total_track": playlist.get("tracks", {}).get("total", 0),
+            #total nabhaye 0
             "playlist_url": playlist.get("external_urls", {}).get("spotify",'')
         })
     print("search_for_playlists is written to csv")

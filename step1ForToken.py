@@ -1,15 +1,9 @@
-from flask import Flask, redirect, jsonify
-from flask_restful import reqparse, Api, Resource
 import base64
 from config import client_id, client_secret
-from requests import post, get
+from requests import post
 import json
 
 
-#base64 for encoding
-app = Flask(__name__)
-api = Api(app)
-redirect_uri = "http://localhost:7478/callback"
 
 def get_token():
     auth_string = client_id + ":" + client_secret

@@ -1,7 +1,6 @@
 from step1ForToken import token
-from requests import post, get
+from requests import get
 import json
-import csv
 
 
 def get_auth_token(token):
@@ -66,9 +65,9 @@ ids = "remaster%2520track%3ADoxy%2520artist%3AMiles%2520Davis"
 artists = search_for_artist(ids)
 albums = search_for_album(ids)
 playlists = search_for_playlist(ids)
-track = search_for_track(ids)
-show = search_for_show(ids)
-episode = search_for_episode(ids)
+tracks = search_for_track(ids)
+shows = search_for_show(ids)
+episodes = search_for_episode(ids)
 
 
 
