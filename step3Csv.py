@@ -99,7 +99,7 @@ with open(file_path5, 'w', newline='', encoding="utf-8") as csv_file5:
     print("search_for_show is written to csv")
     
     
-file_path5 = "z6SearchBySpisode.csv"
+file_path5 = "z6SearchByEpisode.csv"
 field_names5 = ['items', 'total']
 episodes_data = episodes["episodes"]
 
