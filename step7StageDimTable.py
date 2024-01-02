@@ -28,18 +28,20 @@ CREATE TABLE IF NOT EXISTS stage_table (
 
 spy.create_stage_table(create_stage_table_query)
 
-csv_file_path = 'z7Combined_data3.csv'
 table_name = 'stage_table'
+folder_path = "z7Combined_data"
+
+# CSV extension bhako list of files rakhni
+csv_files = [f for f in os.listdir(folder_path) if f.endswith(".csv")]
+
+if not csv_files:
+    raise ValueError("No CSV files found in the specified folder.")
+
+# Surukai csv chaiyo rey
+csv_file_name = csv_files[0]
+file_path = r"C:\Users\amrit\OneDrive\Desktop\InternGBD\SPOTIFY API Pull\z7Combined_data"
+csv_file_path = f"{file_path}\\{csv_file_name}"
 spy.load_data_from_csv(csv_file_path, table_name)
-
-# delete_csv_file_path = 'stage_table.csv'
-
-# spy.delete_data(delete_csv_file_path, table_name)
-
-# Load new data from CSV
-# new_csv_file_path = 'z7Combined_data3.csv'
-
-# spy.load_data_from_csv(new_csv_file_path, table_name)
 
 spy.dim_artist()
 spy.dim_album()

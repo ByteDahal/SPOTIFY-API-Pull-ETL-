@@ -22,4 +22,5 @@ result_df = result_df.drop("playlist_name","owner_name","total_track","track_nam
 #mathiko columns haruma null value thiye so hataye
 result_df = result_df.dropna()
 #aba row hataucha null bhayeka
-result_df.write.csv('z7Combined_data2.csv', header=True, mode='overwrite')
+result_df.write.csv('z7Combined_data.csv', header=True, mode='overwrite')
+
