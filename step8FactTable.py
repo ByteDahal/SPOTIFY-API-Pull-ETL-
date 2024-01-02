@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS fact_table(
    genre_id int,
    album_id int,
    release_year_albums int,
+   FOREIGN KEY (artist_id) REFERENCES dim_artist(artist_id),
    FOREIGN KEY (genre_id) REFERENCES dim_genre(genre_id),
    FOREIGN KEY (album_id) REFERENCES dim_album(album_id)
 );
