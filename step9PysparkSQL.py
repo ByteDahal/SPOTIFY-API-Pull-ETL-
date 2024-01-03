@@ -47,7 +47,7 @@ query = '''
 '''
 dim_artist_name_df = spark.sql(query)
 
-dim_artist_name_df.show()
+dim_artist_name_df.createOrReplaceTempView("dim_artist_name")
 
 
 empty_schema = StructType([
@@ -69,7 +69,7 @@ query_genres = '''
 '''
 
 dim_genres_df = spark.sql(query_genres)
-dim_genres_df.show()
+dim_genres_df.createOrReplaceTempView("dim_genres")
 
 
 
@@ -95,11 +95,10 @@ query_insert_fact = """
     JOIN dim_genres dg 
     ON s.genres = dg.genres
 """
-spark.sql(query_insert_fact).show()
+spark.sql(query_insert_fact)
 # Display the contents of fact_table1
 fact_df = spark.sql(query_insert_fact)
-fact_df.show()
-
+fact_df.createOrReplaceTempView("fact_table")
 
 # # dim_df.write.mode("overwrite").parquet("path/to/dim_table_artist")
 # # fact_df.write.mode("overwrite").parquet("path/to/fact_table_artist")
