@@ -35,7 +35,7 @@ folder_path = "z7Combined_data"
 csv_files = [f for f in os.listdir(folder_path) if f.endswith(".csv")]
 
 if not csv_files:
-    raise ValueError("No CSV files found in the specified folder.")
+    raise ValueError("No CSV files found in the specified folder")
 
 # Surukai csv chaiyo rey
 csv_file_name = csv_files[0]
