@@ -4,5 +4,6 @@
 - pip install flask, flask_restful, requests
 - pip install pyspark
 - pip install pyspark.sql
-- set environment variable for spark, hadoop and java
+- set environment variable for spark, hadoop, java , java mysql connector jar file
+- 
 - good to go
