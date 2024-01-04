@@ -99,8 +99,10 @@ spark.sql(query_insert_fact)
 # Display the contents of fact_table1
 fact_df = spark.sql(query_insert_fact)
 fact_df.createOrReplaceTempView("fact_table")
+result = spark.sql("select * from fact_table")
+result.show()
 
-# # dim_df.write.mode("overwrite").parquet("path/to/dim_table_artist")
-# # fact_df.write.mode("overwrite").parquet("path/to/fact_table_artist")
+# dim_df.write.mode("overwrite").parquet("path/to/dim_table_artist")
+# fact_df.write.mode("overwrite").parquet("path/to/fact_table_artist")
 
-# # spark.stop()
+spark.stop()

@@ -4,8 +4,8 @@ from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
 # Set your MySQL database configuration
 mysql_config = {
-    "url": "jdbc:mysql://localhost:3306/spotifydb2",
-    "driver": "com.mysql.cj.jdbc.Driver",  # Correct JDBC driver class for MySQL
+    "url": "jdbc:mysql://localhost:3306/spotifydb3",
+    "driver": "com.mysql.cj.jdbc.Driver",  
     "user": "root",
     "password": ""
 }
@@ -92,6 +92,21 @@ dim_artist_name_df.write.format("jdbc").option("url", mysql_config["url"]) \
     .option("password", mysql_config["password"]) \
     .mode("overwrite") \
     .save()
+    
+#mathiko bujham hai-----------------------------------
+#.write.format("jdbc"):Specifies that you want to write the DataFrame using the JDBC data source
+#option("url", mysql_config["url"]):Sets the JDBC URL for the MySQL database. This URL includes information such as 
+# the server address (localhost), port (3306), and the specific database (spotifydb2).
+#.option("driver", mysql_config["driver"]):Specifies the JDBC driver class for MySQL. This is necessary for Spark to connect to
+# the MySQL database. In this case, the driver is "com.mysql.cj.jdbc.Driver".
+#.option("dbtable", "dim_artist_name"):Sets the name of the MySQL table where the data will be written. In this case,
+# it's "dim_artist_name".
+#.option("user", mysql_config["user"]):Provides the MySQL username. In your configuration, the username is "root".
+#.option("password", mysql_config["password"]):Provides the MySQL password. Note that the password is empty in your configuration (""). In a 
+# production environment, it's recommended to secure the password.
+#.mode("overwrite"):Specifies the mode for writing data. In this case, it's set to "overwrite", meaning that if the table already exists, it 
+# will be overwritten.
+#.save():Initiates the saving process. The DataFrame will be written to the specified MySQL table using the provided configurations.
 
 dim_genres_df.write.format("jdbc").option("url", mysql_config["url"]) \
     .option("driver", mysql_config["driver"]) \
@@ -109,5 +124,4 @@ fact_df.write.format("jdbc").option("url", mysql_config["url"]) \
     .mode("overwrite") \
     .save()
 
-# Stop the Spark session
-spark.stop()
+
