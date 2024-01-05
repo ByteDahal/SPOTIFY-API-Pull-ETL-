@@ -1,5 +1,4 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import monotonically_increasing_id
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
 # Set your MySQL database configuration
@@ -20,7 +19,7 @@ spark = SparkSession.builder \
 csv_file_path = "z1SearchByArtist.csv"
 raw_df = spark.read.csv(csv_file_path, header=True, inferSchema=True)
 raw_df = raw_df.drop("href").dropna()
-raw_df.createOrReplaceTempView("raw_table")
+raw_df.createOrReplaceTempView("stage_table")
 
 # Create an empty DataFrame with the specified schema for dim_artist_name
 schema = StructType([
@@ -34,7 +33,7 @@ dim_artist_name_df.createOrReplaceTempView("dim_artist_name")
 # Query for dim_artist_name
 query_dim_artist_name = '''
     SELECT s.id as artist_id, s.artist_name
-    FROM raw_table s
+    FROM stage_table s
     LEFT JOIN dim_artist_name dan
     ON s.id = dan.artist_id
     WHERE dan.artist_id IS NULL
@@ -54,7 +53,7 @@ dim_genres_df.createOrReplaceTempView("dim_genres")
 # Query for dim_genres
 query_dim_genres = '''
     SELECT monotonically_increasing_id() as genre_id, s.genres
-    FROM raw_table s
+    FROM stage_table s
     LEFT JOIN dim_genres dg
     ON s.genres = dg.genres
     WHERE dg.genres IS NULL
@@ -62,20 +61,30 @@ query_dim_genres = '''
 dim_genres_df = spark.sql(query_dim_genres)
 dim_genres_df.createOrReplaceTempView("dim_genres")
 
-# Create an empty DataFrame with the specified schema for fact_table
-fact_schema = StructType([
-    StructField("artist_id", StringType(), True),
-    StructField("popularity", StringType(), True),
-    StructField("genre_id", IntegerType(), True)
-])
-empty_data_fact = []
-fact_df = spark.createDataFrame(empty_data_fact, fact_schema)
-fact_df.createOrReplaceTempView("fact_table")
 
-# Insert data into fact_table from raw_table and dim_genres
+query_dim_artist_name_generator = '''
+select artist_id 
+from dim_artist_name
+group by artist_id
+'''
+dim_artist_generator_df = spark.sql(query_dim_artist_name_generator)
+dim_artist_generator_df.createOrReplaceTempView("dim_artist_name_generator")
+
+
+query_dim_artist_name_generator = '''
+select genre_id 
+from dim_genres
+group by genre_id
+order by genre_id
+'''
+dim_genre_generator_df = spark.sql(query_dim_artist_name_generator)
+dim_genre_generator_df.createOrReplaceTempView("dim_genres_generator")
+
+
+# Insert data into fact_table from stage_table and dim_genres
 query_insert_fact = """
-    SELECT dan.artist_id, s.popularity, dg.genre_id
-    FROM raw_table s
+    SELECT dan.artist_id as artist_id, s.popularity as popularity, dg.genre_id as genre_id
+    FROM stage_table s
     JOIN dim_artist_name dan
     ON s.id = dan.artist_id
     JOIN dim_genres dg 
@@ -83,6 +92,15 @@ query_insert_fact = """
 """
 fact_df = spark.sql(query_insert_fact)
 fact_df.createOrReplaceTempView("fact_table")
+
+raw_df.write.format("jdbc").option("url", mysql_config["url"]) \
+    .option("driver", mysql_config["driver"]) \
+    .option("dbtable", "stage_table") \
+    .option("user", mysql_config["user"]) \
+    .option("password", mysql_config["password"]) \
+    .mode("overwrite") \
+    .save()
+
 
 # Write to MySQL database
 dim_artist_name_df.write.format("jdbc").option("url", mysql_config["url"]) \
@@ -115,7 +133,23 @@ dim_genres_df.write.format("jdbc").option("url", mysql_config["url"]) \
     .option("password", mysql_config["password"]) \
     .mode("overwrite") \
     .save()
+    
+dim_artist_generator_df.write.format("jdbc").option("url", mysql_config["url"]) \
+    .option("driver", mysql_config["driver"]) \
+    .option("dbtable", "dim_artist_name_generator") \
+    .option("user", mysql_config["user"]) \
+    .option("password", mysql_config["password"]) \
+    .mode("overwrite") \
+    .save()
 
+dim_genre_generator_df.write.format("jdbc").option("url", mysql_config["url"]) \
+    .option("driver", mysql_config["driver"]) \
+    .option("dbtable", "dim_genres_generator") \
+    .option("user", mysql_config["user"]) \
+    .option("password", mysql_config["password"]) \
+    .mode("overwrite") \
+    .save()
+    
 fact_df.write.format("jdbc").option("url", mysql_config["url"]) \
     .option("driver", mysql_config["driver"]) \
     .option("dbtable", "fact_table") \

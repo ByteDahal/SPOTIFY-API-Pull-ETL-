@@ -66,7 +66,6 @@ artists = search_for_artist(ids)
 albums = search_for_album(ids)
 playlists = search_for_playlist(ids)
 tracks = search_for_track(ids)
-print(tracks)
 shows = search_for_show(ids)
 episodes = search_for_episode(ids)
 
