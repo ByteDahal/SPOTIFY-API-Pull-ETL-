@@ -35,6 +35,7 @@ csv_file_path = "z1SearchByArtist.csv"
 raw_df = spark.read.csv(csv_file_path, header=True, inferSchema=True)
 raw_df = raw_df.drop("href").dropna()
 raw_df.createOrReplaceTempView("stage_table")
+spark.sql("select * from stage_table").show()
 
 #------------------------------------------DATA IMPORT STAGE------------------------------------------
 # Create tables in the database if they do not already exist
